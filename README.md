@@ -7,7 +7,7 @@ It takes a folder full of images in folder `/animation` and crops them, stitches
 ![horsey](README.gif)
 [(source)](https://en.wikipedia.org/wiki/File:Muybridge_race_horse_animated.gif)
 
-*Result of first page*: First upper half and next lower half, cropped/fitted to one A3 page:
+*Result of 7th page*: Current upper half and the lower half of the next frame, cropped/fitted to one A3 page:
 ![horsey](README.png)
 
 The images are stored in the `/processed` folder: Firstly scaled and then after the re-composition.
