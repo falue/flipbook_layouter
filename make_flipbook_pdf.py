@@ -90,6 +90,7 @@ def export_to_pdf(composites):
     """Export combined images to an A3 PDF."""
     pdf = canvas.Canvas(OUTPUT_PDF, pagesize=landscape(A3))
     a3_width, a3_height = landscape(A3)
+    i = 0
 
     for path in composites:
         img = Image.open(path)
@@ -101,6 +102,31 @@ def export_to_pdf(composites):
         y = (a3_height - img_height_mm * mm) / 2
 
         pdf.drawImage(img_path, x, y, width=img_width_mm * mm, height=img_height_mm * mm)
+
+        # Add page text below the image
+        page_num = i + 1
+        i = page_num
+
+        frame_current = i  # 1-based
+        frame_prev = (i - 2) % len(composites) + 1  # also 1-based
+
+        # label_line1 = f"Page {page_num}"
+        # label_line2 = f"frames {frame_current} + {frame_prev}"
+        label_text1 = f"Page {page_num}"
+        label_text2 = f"Frames {frame_current} + {frame_prev}"
+
+        # Set font and size
+        pdf.setFont("Helvetica", 9)
+        pdf.setFillColorRGB(0, 0, 0)
+
+        # Draw left at bottom
+        # text_width = pdf.stringWidth(label_text1, "Helvetica", 12)
+        text_x = 12 * mm
+        base_y = 18 * mm  # Starting Y position
+        line_height = 5 * mm
+
+        pdf.drawString(text_x, base_y, label_text1)
+        pdf.drawString(text_x, base_y - line_height, label_text2)
         pdf.showPage()
 
     pdf.save()
