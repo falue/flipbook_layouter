@@ -7,6 +7,7 @@ from reportlab.lib.units import mm
 # === CONFIGURATION ===
 FRAME_WIDTH_MM = 223.0  # Small: 223.0, Large: 325.0
 FRAME_HEIGHT_MM = 281.3
+CUTTING_MARKS = True
 INPUT_FOLDER = "./animation"
 OUTPUT_FOLDER = "./processed"
 OUTPUT_PDF = f"./output/flipbook-{FRAME_WIDTH_MM}x{FRAME_HEIGHT_MM}mm.pdf"
@@ -103,29 +104,40 @@ def export_to_pdf(composites):
 
         pdf.drawImage(img_path, x, y, width=img_width_mm * mm, height=img_height_mm * mm)
 
+        # Show cutting marks
+        if CUTTING_MARKS:
+            pdf.setLineWidth(0.5)  # units in points; 0.5pt ≈ 0.176mm
+            # Convert 0.5pt to mm: 1pt ≈ 0.3528mm
+            line_width_pt = 0.5
+            line_width_mm = line_width_pt * 0.3528
+            half_line_mm = line_width_mm / 2
+
+            pdf.setLineWidth(line_width_pt)
+            pdf.setStrokeColorRGB(0, 0, 0)
+
+            mark_x = x - half_line_mm * mm
+            mark_y = y - half_line_mm * mm
+            mark_width = img_width_mm * mm + line_width_mm * mm
+            mark_height = img_height_mm * mm + line_width_mm * mm
+
+            pdf.rect(mark_x, mark_y, mark_width, mark_height, stroke=1, fill=0)
+
         # Add page text below the image
         page_num = i + 1
         i = page_num
-
         frame_current = i
         frame_next = (i ) % len(composites) + 1
-
-        # label_line1 = f"Page {page_num}"
-        # label_line2 = f"frames {frame_current} + {frame_next}"
         label_text1 = f"Page {page_num}"
         label_text2 = f"Frame #{frame_current} & #{frame_next}"
         label_text3 = f"{FRAME_WIDTH_MM} x {FRAME_HEIGHT_MM}mm"
-
         # Set font and size
         pdf.setFont("Helvetica", 9)
         pdf.setFillColorRGB(0, 0, 0)
-
         # Draw left at bottom
         # text_width = pdf.stringWidth(label_text1, "Helvetica", 12)
         text_x = 12 * mm
         base_y = 18 * mm  # Starting Y position
         line_height = 5 * mm
-
         pdf.drawString(text_x, base_y, label_text1)
         pdf.drawString(text_x, base_y - line_height, label_text2)
         pdf.drawString(text_x, base_y - line_height * 2, label_text3)
