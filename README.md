@@ -2,15 +2,15 @@
 
 If you're making a hand-cranked flipbook like [this](https://www.youtube.com/watch?v=UInHQr0IQEg) or [that](https://www.youtube.com/watch?v=F7gc3fA-CG0) or [this](https://www.youtube.com/watch?v=oVCod62KKcc) - creating the printable PDF from the animation by yourself is a pain. Fear not, this script is here.
 
-It takes a folder full of images in folder `animation` and crops them, flips the lower half of the last image around. Check the [test result](output/flipbook-325.0x281.3mm.pdf) out:
+It takes a folder full of images in folder `/animation` and crops them, stitches the current and the next frame together. On the last frame, the first one is used again for conatnous rotation. Check the [test result](output/flipbook-325.0x281.3mm.pdf) out:
 
 ![horsey](README.gif)
 [(source)](https://en.wikipedia.org/wiki/File:Muybridge_race_horse_animated.gif)
 
-*Result of first page*: First upper half and last lower half upside down, cropped/fitted to one A3 page:
+*Result of first page*: First upper half and next lower half, cropped/fitted to one A3 page:
 ![horsey](README.png)
 
-The images are stored in the `processed` folder: Firstly scaled and then after the re-composition.
+The images are stored in the `/processed` folder: Firstly scaled and then after the re-composition.
 
 ### Tips
 >Change the desired output width/height for each frame at the beginning of the script.

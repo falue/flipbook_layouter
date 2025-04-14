@@ -5,7 +5,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.units import mm
 
 # === CONFIGURATION ===
-FRAME_WIDTH_MM = 325.0  # Small: 223.0, Large: 325.0
+FRAME_WIDTH_MM = 223.0  # Small: 223.0, Large: 325.0
 FRAME_HEIGHT_MM = 281.3
 INPUT_FOLDER = "./animation"
 OUTPUT_FOLDER = "./processed"
@@ -67,14 +67,14 @@ def create_composite_images(processed_frames):
         upper = Image.open(processed_frames[i])
         upper_half = upper.crop((0, 0, FRAME_WIDTH_PX, FRAME_HEIGHT_PX // 2))
 
-        if i > 0:
-            lower = Image.open(processed_frames[i - 1])
+        if i == len(processed_frames)-1:
+            lower = Image.open(processed_frames[0])
         else:
             # Use last image for lower half if its the first frame
-            lower = Image.open(processed_frames[- 1])
+            lower = Image.open(processed_frames[i+1])
         
         lower_half = lower.crop((0, FRAME_HEIGHT_PX // 2, FRAME_WIDTH_PX, FRAME_HEIGHT_PX))
-        lower_half = lower_half.transpose(Image.ROTATE_180)
+        # lower_half = lower_half.transpose(Image.ROTATE_180)
 
         combined = Image.new("RGB", (FRAME_WIDTH_PX, FRAME_HEIGHT_PX))
         combined.paste(upper_half, (0, 0))
@@ -107,13 +107,14 @@ def export_to_pdf(composites):
         page_num = i + 1
         i = page_num
 
-        frame_current = i  # 1-based
-        frame_prev = (i - 2) % len(composites) + 1  # also 1-based
+        frame_current = i
+        frame_next = (i ) % len(composites) + 1
 
         # label_line1 = f"Page {page_num}"
-        # label_line2 = f"frames {frame_current} + {frame_prev}"
+        # label_line2 = f"frames {frame_current} + {frame_next}"
         label_text1 = f"Page {page_num}"
-        label_text2 = f"Frames {frame_current} + {frame_prev}"
+        label_text2 = f"Frame #{frame_current} & #{frame_next}"
+        label_text3 = f"{FRAME_WIDTH_MM} x {FRAME_HEIGHT_MM}mm"
 
         # Set font and size
         pdf.setFont("Helvetica", 9)
@@ -127,6 +128,7 @@ def export_to_pdf(composites):
 
         pdf.drawString(text_x, base_y, label_text1)
         pdf.drawString(text_x, base_y - line_height, label_text2)
+        pdf.drawString(text_x, base_y - line_height * 2, label_text3)
         pdf.showPage()
 
     pdf.save()
