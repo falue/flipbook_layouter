@@ -1,8 +1,8 @@
 # Make a PDF for a Flipbook
 
-If you're making a hand-cranked flipbook like [this](https://www.youtube.com/watch?v=UInHQr0IQEg) or [that](https://www.youtube.com/watch?v=F7gc3fA-CG0) or [this](https://www.youtube.com/watch?v=oVCod62KKcc) - creating the printable PDF from the animation by yourself is a pain. Fear not, this script is here.
+If you're making a hand-cranked flipbook like [this](https://www.youtube.com/watch?v=UInHQr0IQEg) or [that](https://www.youtube.com/watch?v=F7gc3fA-CG0) or [this one](https://www.youtube.com/watch?v=oVCod62KKcc) - creating the printable PDF from the animation by yourself is a pain. Fear not, this script is here.
 
-It takes a folder full of images in folder `/animation` and crops them, stitches the current and the next frame together. On the last frame, the first one is used again for conatnous rotation. Check the [test result](output/flipbook-325.0x281.3mm.pdf) out:
+It takes a folder full of images in folder `/animation` and crops them, stitches the current and the next frame together. On the last frame, the first one is used again for continuous rotation. Check the [test result](output/flipbook-325.0x281.3mm.pdf) out:
 
 ![horsey](README.gif)
 [(source)](https://en.wikipedia.org/wiki/File:Muybridge_race_horse_animated.gif)
@@ -26,7 +26,7 @@ Landscape and A3 is hardcoded.
 
 ## Installation
 ```
-pip install pillow reportlab
+brew install pillow reportlab
 ```
 
 ---
