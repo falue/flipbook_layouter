@@ -21,7 +21,10 @@ The images are stored in the `/processed` folder: Firstly scaled and then after 
 >
 >Or use ffmpeg `ffmpeg -i "input.mp4" -vsync 0 frames/frame_%05d.png` for video files.
 
-### Installation
+### Notes
+Landscape and A3 is hardcoded.
+
+## Installation
 ```
 pip install pillow reportlab
 ```
